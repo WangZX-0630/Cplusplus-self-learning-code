@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+char* strRev1(const char* str)
+{
+    int len = strlen(str);
+    char* revStr = new char[len];
+    int i;
+    for(i = 0; i < len; i++)
+    {
+        revStr[i] = str[len - i - 1];
+    }
+    return revStr;
+}
+
+
+char* strRev2(const char* str)
+{
+    int len = strlen(str);
+    char* tmp = new char[len];
+    strcpy(tmp, str);
+    char* revStr = tmp;
+    char* p = tmp + len - 1;
+    while (p > tmp)
+    {
+        char t = *tmp;
+        *tmp++ = *p;
+        *p-- = t;
+    }
+    return revStr;
+}
+
+int main()
+{
+    char s[50];
+    cout << "Input: ";
+    gets(s);
+    cout << "Output1: " << strRev1(s) << endl; //Use character array
+    cout << "Output2: " << strRev2(s) <<endl; //Use pointer
+    return 0;
+}
