@@ -37,7 +37,7 @@ int main()
     char s[50];
     cout << "Input: ";
     gets(s);
-    cout << "Output1: " << strRev1(s) << endl; //Use character array
-    cout << "Output2: " << strRev2(s) <<endl; //Use pointer
+    cout << "Output1: " << strRev1(s) << endl;    //Use character array
+    cout << "Output2: " << strRev2(s) <<endl;     //Use pointer
     return 0;
 }
