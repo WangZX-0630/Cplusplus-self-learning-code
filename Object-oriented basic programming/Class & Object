@@ -1,0 +1,99 @@
+#include <iostream>
+
+using namespace std;
+
+class Box {
+public:
+    static int objectCount;                                   // Static member
+    double length;
+    double breadth;
+    double height;
+    Box(double len, double bre, double hei, string name);     // Constructor
+    Box(const Box &NewBox);                                   // Copy constructor
+    ~Box();                                                   // Destructor
+    double getVolume(void);
+    double getWidth(void);
+    string getName();
+    void setWidth(double wid);
+    int compare(Box box);
+
+private:
+    double width;
+    string *ptr;
+};
+
+int Box::objectCount = 0;                              // Initialize static member, otherwise report error
+
+double Box::getVolume() {
+    return length * breadth * height;
+}
+
+double Box::getWidth() {                               // width is a private member
+    return width;                                      // you have to use a friend function to access to it
+}
+
+string Box::getName() {
+    return *ptr;
+}
+
+void Box::setWidth(double wid) {
+    width = wid;
+}
+
+Box::Box(double len, double bre, double hei, string name):length(len), breadth(bre), height(hei) {
+    ptr = new string;
+    *ptr = name;
+    cout << "Constructor is called" <<endl;
+    objectCount++;
+}
+
+Box::Box(const Box &NewBox) {
+    cout<< "Copy constructor is called" << endl;
+    ptr = new string;                                   // Copy constructor can be used to distribute space for ptr
+    *ptr = *NewBox.ptr;                                 // So if you use ptr, you have to define it in this way
+    height = NewBox.height;
+    length = NewBox.length;
+    breadth = NewBox.breadth;
+    width = NewBox.width;
+}
+
+Box::~Box(void) {
+    cout << "Destructor is called" <<endl;
+}
+
+int Box::compare(Box box) {
+    return this->getVolume() > box.getVolume();
+
+}
+
+int main()
+{
+    Box Box1(2.0, 3.0, 4.0, "Big");
+    Box1.setWidth(5.0);
+    cout << "Box1 Name: " << Box1.getName() << endl;
+    cout << "Box1 height: " << Box1.height << endl;
+    cout << "Box1 width: " << Box1.getWidth() << endl;
+    cout << "Box1 Volume: " << Box1.getVolume() << endl;
+
+    Box Box2 = Box1;                                   // Copy Box1 to Box2, this process will use copy constructor
+    cout << "Box2 Name: " << Box2.getName() << endl;
+    cout << "Box2 height: " << Box2.height << endl;
+    cout << "Box2 width: " << Box2.getWidth() << endl;
+    cout << "Box2 Volume: " << Box2.getVolume() << endl;
+
+    Box Box3(1.0, 2.0, 3.0, "Small");
+    cout << "Box3 Volume: " << Box3.getVolume() << endl;
+    if(Box1.compare(Box3))                                // When you use an object as a input of a function
+        cout << "Box1 is larger than Box3" << endl;       // Then there will be a copy of this object used in the function
+    else                                                  // So you will see Copy constructor will be used here and also destructor
+        cout << "Box1 is equal to or smaller than Box3" << endl;
+
+    Box *ptrBox;                                          // Declare pointer to a class
+    ptrBox = &Box1;                                       // Save the address of Box1
+    cout << "Box1 Volume: " << ptrBox->getVolume() << endl;
+
+    cout << "Total constructed objects: " << Box::objectCount <<endl;
+
+    return 0;
+}
+
