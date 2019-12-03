@@ -1,0 +1,75 @@
+#include <iostream>
+
+using namespace std;
+
+class Shape {                                    // Base class1 definition
+public:
+    void setWidth(int w) {
+        width = w;
+    }
+    void setHeight(int h) {
+        height = h;
+    }
+    Shape(void) {
+        cout << "Shape class constructor is called" << endl;
+    }
+    ~Shape() {
+        cout << "Shape class destructor is called" << endl;
+    }
+protected:                                       // Protected member, which can be access to
+    int width;                                   // by its own class or derived classes
+    int height;
+};
+
+class PaintCost {                                // Base class2 definition
+public:
+    int getCost(int area) {
+        return area * 70;
+    }
+};
+
+class Rectangle: public Shape, public PaintCost {      // Definition of derived class, which has two base classes
+public:
+    Rectangle() {
+        cout << "Rectangle class constructor is called" << endl;
+    }
+    ~Rectangle() {
+        cout << "Rectangle class destructor is called" << endl;
+    }
+    int getArea() {
+        return width * height;
+    }
+};
+
+class Triangle: public Shape {                         // The second derived class of Class Shape
+public:
+    int getArea() {
+        return width * height / 2;
+    }
+};
+
+int main()
+{
+    Rectangle Rect;
+    Rect.setHeight(7);
+    Rect.setWidth(5);
+    int RectArea = Rect.getArea();
+
+    Triangle Tri;
+    Tri.setWidth(4);
+    Tri.setHeight(6);
+
+    cout << "Rectangle Area: " << Rect.getArea() << endl;
+    cout << "Triangle Area: " << Tri.getArea() << endl;
+    cout << "Rectangle Paint cost: $" << Rect.getCost(RectArea) << endl;
+
+    Shape shape;
+    shape.setHeight(10);
+    shape.setWidth(10);
+    Rectangle R;
+    int RArea = R.getArea();                               // Derived class member can not access to
+    cout << "The area of R:" << RArea << endl;             // the data of object of its base class
+                                                           
+    return 0;
+}
+
