@@ -1,0 +1,135 @@
+#include <iostream>
+using namespace std;
+const int SIZE = 10;
+
+class Box
+{
+public:
+    Box() {
+        length = 0;
+        height = 0;
+        breadth = 0;
+        register int i;
+        for(i = 0; i < SIZE; i++) {
+            boxNum[i] = i;
+        }
+    }
+    double getVolume(void) {
+        return length * breadth * height;
+    }
+    void setLength(double len) {
+        length = len;
+    }
+    void setHeight(double hei) {
+        height = hei;
+    }
+    void setBreadth(double bre) {
+        breadth = bre;
+    }
+    void ViewVolume() {
+        cout << " (" << length << " * " << height << " * " << breadth << ")" << endl;
+    }
+    Box operator+(const Box& b) {                // Overloaded binary operator
+        Box box;
+        box.length = this->length + b.length;
+        box.height = this->height + b.height;
+        box.breadth = this->breadth + b.breadth;
+        return box;
+    }
+    void operator--() {                           // Overloaded unary operator
+        length = length - 1;
+        height = height - 1;
+        breadth = breadth - 1;
+    }
+    bool operator>(Box& b) {                     // Overloaded relational operator
+        if(this->getVolume() > b.getVolume())
+            return true;
+        return false;
+    }
+    friend ostream &operator<<(ostream &output, Box& b) {      // Overloaded output operator
+        output << b.getVolume() << " (" << b.length << " * "
+               << b.height << " * " << b.breadth << ")";
+        return output;
+    }
+    friend istream &operator>>(istream &input, Box& b) {       // Overloaded input operator
+        input >> b.length >> b.height >>b.breadth;
+        return input;
+    }
+    void operator+=(const Box& b) {              // Overloaded assignment operator
+        length += b.length;
+        height += b.height;
+        breadth += b.breadth;
+    }
+    Box operator()(double times) {               // Overloaded invoke operator
+        Box box;
+        box.length = this->length * times;
+        box.height = this->height * times;
+        box.breadth = this->breadth * times;
+        return box;
+    }
+    int& operator[](int i) {                     // Overloaded subscript operator
+        if(i > SIZE) {                           // Usually used to enforce the function of array in C++
+            cout << "Index is larger than the max value" << endl;
+            return boxNum[0];
+        }
+        return boxNum[i];
+    }
+
+private:
+    double length;
+    double height;
+    double breadth;
+    int boxNum[SIZE];
+
+};
+
+
+int main()
+{
+    Box Box1;
+    Box Box2;
+    Box Box3;
+
+    Box1.setLength(3.0);
+    Box1.setHeight(4.0);
+    Box1.setBreadth(5.0);
+
+    Box2.setLength(5.0);
+    Box2.setHeight(6.0);
+    Box2.setBreadth(7.0);
+
+    Box3 = Box1 + Box2;
+
+    cout << "Volume of Box1: " << Box1.getVolume();
+    Box1.ViewVolume();
+    cout << "Volume of Box2: " << Box2.getVolume();
+    Box2.ViewVolume();
+    cout << "Volume of Box3: " << Box3.getVolume();
+    Box3.ViewVolume();
+
+    --Box3;
+    cout << "Volume of --Box3: " << Box3.getVolume();
+    Box3.ViewVolume();
+
+    if(Box2 > Box1)
+        cout << "Box2 is larger than Box1" << endl;
+    else
+        cout << "Box2 is equal to or smaller than Box1" << endl;
+
+    Box Box4;
+    cout << "Enter the length, height and breadth of Box4 one by one: " << endl;
+    cin >> Box4;
+    cout << "Volume of Box4: " << Box4 << endl;
+
+    Box4 += Box1;
+    cout << "Volume of Box4 += Box1: " << Box4 << endl;
+
+    Box Box5 = Box4(2);                          // each edge is 2 times of Box4
+    cout << "Volume of Box5: " << Box5 << endl;
+
+    cout << "The index of Box1[2]: " << Box1[2] << endl;
+    cout << "The index of Box1[15]: " << Box1[15] << endl;
+
+
+    return 0;
+}
