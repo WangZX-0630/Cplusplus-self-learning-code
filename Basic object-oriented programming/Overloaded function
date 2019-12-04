@@ -1,0 +1,32 @@
+#include <iostream>
+
+using namespace std;
+
+class PrintData
+{
+public:
+    void print(int i) {
+        cout << "The integer is: " << i << endl;
+    }
+
+    void print(double f) {
+        cout << "The floating number is: " << f << endl;
+    }
+
+    void print(char c[]) {
+        cout << "The string is: " << c << endl;
+    }
+};
+
+
+int main()
+{
+    PrintData pd;
+
+    pd.print(5);
+    pd.print(100.263);
+    pd.print("Hello World");
+
+    return 0;
+}
+
