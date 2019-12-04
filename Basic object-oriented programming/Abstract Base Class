@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+class Shape {
+protected:
+    int width;
+    int height;
+public:
+    virtual int getArea() = 0;                   // Pure virtual function providing interface framework,
+    void setWidth(int wid) {                     // class with at least one this kind of function is called ABC,
+        width = wid;                             // Abstract Base Class
+    }
+    void setHeight(int hei) {
+        height = hei;
+    }
+};
+
+class Rectangle: public Shape {
+public:
+    int getArea() {
+        return (height * width);
+    }
+};
+
+class Triangle: public Shape {
+public:
+    int getArea() {
+        return (height * width) / 2;
+    }
+};
+
+
+int main()
+{
+    Rectangle rec;
+    Triangle tri;
+
+    rec.setHeight(10);
+    rec.setWidth(12);
+    cout << "Area of Rectangle: " << rec.getArea() << endl;
+
+    tri.setHeight(10);
+    tri.setWidth(12);
+    cout << "Area of Triangle: " << tri.getArea() << endl;
+
+    return 0;
+}
