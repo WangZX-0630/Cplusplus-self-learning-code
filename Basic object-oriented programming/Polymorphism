@@ -1,0 +1,79 @@
+#include <iostream>
+using namespace std;
+
+class Shape {
+protected:
+    int width;
+    int height;
+public:
+    Shape(int wid = 0, int hei = 0) {
+        width = wid;
+        height = hei;
+        p = new char[5];
+        cout << "Constructor of Shape id called" << endl;
+    }
+    virtual int area() {
+        cout << "Parent class area: " << endl;
+        return 0;
+    }
+    virtual ~Shape() {
+        delete[] p;
+        cout << "Destructor of Shape is called" << endl;
+    }
+private:
+    char* p;
+};
+
+class Rectangle: public Shape {
+public:
+    Rectangle(int wid = 0, int hei = 0): Shape(wid, hei) {
+        q = new char[5000];
+        cout << "Constructor of Rectangle is called" << endl;
+    }
+    int area() {
+        cout << "Rectangle class area: " << endl;
+        return width * height;
+    }
+    ~Rectangle() {
+        delete[] q;
+        cout << "Destructor of Rectangle is called" << endl;
+    }
+private:
+    char* q;
+};
+
+class Triangle: public Shape {
+public:
+    Triangle(int wid = 0, int hei = 0): Shape(wid, hei) {
+        z = new char[5000];
+        cout << "Constructor of Triangle is called" << endl;
+    }
+    int area() {
+        cout << "Triangle class area: " << endl;
+        return width * height / 2;
+    }
+    ~Triangle() {
+        delete[] z;
+        cout << "Destructor of Triangle is called" << endl;
+    }
+private:
+    char* z;
+};
+
+
+int main()
+{
+    Shape *shape;
+    Rectangle rec(10, 7);
+    Triangle tri(10, 5);
+
+    shape = &rec;
+    cout << shape->area() << endl;
+    shape = &tri;
+    cout << shape->area() << endl;
+
+    shape = new Rectangle(4,6);
+    delete shape;
+
+    return 0;
+}
