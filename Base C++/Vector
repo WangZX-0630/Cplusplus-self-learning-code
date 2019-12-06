@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+    vector<int> v1;
+    vector<int> v2(v1);                             // v2 is copied from v1
+    vector<char> v3(5);                          // 5 members, each one is a empty char object
+    vector<int> v4{5};                              // v4 has only one member: 5
+    vector<char> v5(4, 'c');                  // four 'c'
+    vector<double> v6 = {2.3,1.5,6.1,0.7};
+    vector<string> v7 = {"hello ", "C++ " ,"world"};
+
+    for(int i = 0; i <= 10; ++i) {
+        v1.push_back(i);
+    }
+    cout << "v1: ";
+    for(auto i : v1) {
+        cout << i << " ";
+    }
+    cout << endl;
+    cout << "The third number of v1 is " << v1[2] << endl;
+    cout << "the size of v1 is " << v1.size() << endl;
+
+    for(auto &i : v1) {
+        i *= i;
+    }
+    cout << "Squared v1: ";
+    for(auto i : v1) {
+        cout << i << " ";
+    }
+    cout << endl;
+
+
+    vector<unsigned> scores(11, 0);
+    unsigned grade;
+    cout << "Please enter the grades(0~100), enter -1 to finish:" << endl;
+    while(cin >> grade && grade != -1) {
+        if(grade <= 100) {
+            ++scores[grade/10];
+        }
+    }
+
+    cout << setw(60) <<"Score Distribution Table" << endl;
+    cout << "  ";
+    for(int i = 0; i < 100; i += 10) {
+        cout << setw(5) << i << "~" << i+9;
+    }
+    cout << setw(7) << 100 << endl;
+
+    for(unsigned s : scores) {
+        cout << setw(8) << s;
+    }
+    cout << endl;
+
+
+    string word;
+    vector<string> text;                         // Empty vector object, which is more efficient
+    cout << "Please enter the words(enter exit to quit): " << endl;
+    while(cin >> word && word != "exit") {                         // It's not necessary to set the size of vector
+        text.push_back(word);                    // push word back to the text
+    }
+    for(auto s : text) {
+        cout << s << " ";
+    }
+    cout << endl;
+
+    
+    return 0;
+}
