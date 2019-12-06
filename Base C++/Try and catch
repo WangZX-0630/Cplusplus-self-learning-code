@@ -1,0 +1,29 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+    int num1 = 0;
+    int num2 = 0;
+
+    cout << "Give me two same number, you will get the sum:" << endl;
+    while(cin >> num1 >> num2) {
+        try {
+            if(num1 != num2) {
+                throw runtime_error("The two number must be same");
+            }
+            cout << num1 + num2 << endl;
+        } catch (runtime_error err) {
+            cout << err.what()
+                 << "\nTry Again? Enter y or n" << endl;
+            char c;
+            cin >> c;
+            if(!cin || c == 'n')
+                break;
+        }
+    }
+
+    return 0;
+}
