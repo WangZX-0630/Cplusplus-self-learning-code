@@ -1,0 +1,47 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+using namespace std;
+
+
+int main()
+{
+    string s1 = "KEVIN";                         // Direct initialization
+    string s2(s1);
+    string s3("Michael Jordan, the greatest basketball player, have won six champions.");
+    string s4(8, 'A');
+
+    cout << s1[s1.size() - 1] << endl;
+    cout << s4 << endl;
+
+    string line;
+
+    while(getline(cin, line) && line != "quit")
+        if(!line.empty()) {
+            cout << line << " (" << line.size() << ")" << endl
+                 << isalpha(line[1]) << endl << isdigit(line[1]) << endl;
+        }
+
+    int punctNum = 0;
+    for(auto &c : s3) {
+        c = toupper(c);
+        if(ispunct(c)) {
+            punctNum++;
+        }
+    }
+    for(char &c : s1) {
+        c = tolower(c);
+    }
+
+    cout << s1 << endl;
+    cout << s3 << endl;
+    cout << "punctNum in s3: " << punctNum << endl;
+
+    int array[5] = {1, 2, 3, 4, 5};
+    for(int i : array) {
+        cout << i * i << ", ";
+    }
+
+
+    return 0;
+}
