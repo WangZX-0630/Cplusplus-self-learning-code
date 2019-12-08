@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+#include <list>
+
+using namespace std;
+
+int main()
+{
+    list<int> lt1{0,1,2,3};
+    vector<int> vc1{0,1,2,3,4,5,6,7};
+
+    vector<double> vc2(lt1.begin(), lt1.end());
+    vector<double> vc3(vc1.begin(), vc1.end());
+    cout << "vc2: ";
+    for(auto i : vc2) {
+        cout << i << " ";
+    }
+    cout << endl;
+    cout << "vc3: ";
+    for(auto i : vc3) {
+        cout << i << " ";
+    }
+    cout << endl;
+
+
+    swap(vc2, vc3);                    // Same as vc2.swap(vc3);
+    cout << "After swap:" << endl << "vc2: ";
+    for(auto i : vc2) {
+        cout << i << " ";
+    }
+    cout << endl;
+    cout << "vc3: ";
+    for(auto i : vc3) {
+        cout << i << " ";
+    }
+    cout << endl;
+    
+    
+    cout << "The first three element of vc3: ";
+    vector<double> vc4(5);
+    vc4.assign(vc3.begin(), vc3.begin() + 3);    // assign doesn't apply to associative containers
+    for(auto i : vc4) {
+        cout << i << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}
