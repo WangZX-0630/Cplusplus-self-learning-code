@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+
+using namespace std;
+
+void ReadFileToVector(const string &filename, vector<string> &v) {
+    ifstream input(filename);
+    string s;
+    if(input) {
+        while(getline(input, s))
+            v.push_back(s);
+    } else
+        cerr << "couldn't open: " + filename;
+}
+
+int main()
+{
+    vector<string> vec;
+    ReadFileToVector("afile.dat", vec);
+    for(auto v : vec) {
+        cout << v << endl;
+    }
+
+    string str = "Jijiming";
+    ofstream app("afile.dat", ofstream::app);
+    app << str;
+
+
+    return 0;
+}
