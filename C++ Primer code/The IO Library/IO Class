@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+istream &func(istream &is) {
+    string buf;
+    while(is >> buf && buf != "quit")
+        cout << buf << endl;
+    is.clear();
+    return is;
+}
+
+int main()
+{
+    istream &is = func(cin);
+    cout << is.rdstate() << endl;
+
+    cout << "hi!" << endl;                       // \n
+    cout << "hi!" << flush;                      // nothing
+    cout << "hi!" << ends;                       // empty char
+
+    cout << unitbuf;
+    cout << nounitbuf;
+
+    cin.tie(&cout);
+    ostream *old_tie = cin.tie(nullptr);
+    cin.tie(&cerr);
+    cin.tie(old_tie);
+
+    return 0;
+}
