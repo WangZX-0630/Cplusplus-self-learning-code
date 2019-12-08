@@ -1,0 +1,58 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <sstream>
+
+using namespace std;
+
+struct PersonInfo {
+    string name;
+    vector<string> phones;
+};
+
+bool valid(const string& str)
+{
+    if(str.size() == 11)
+        return true;
+    return false;
+}
+
+string format(const string& str)
+{
+    return str.substr(0, 3) + "-" + str.substr(3, 4) + "-" + str.substr(7);
+}
+
+int main()
+{
+    string line, word;
+    vector<PersonInfo> people;
+
+    ifstream input("afile.dat");
+    if(input) {
+        while(getline(input, line)) {
+            PersonInfo info;
+            istringstream record(line);
+            record >> info.name;
+            while(record >> word)
+                info.phones.push_back(word);
+            people.push_back(info);
+        }
+    } else
+        cerr << "couldn't open: " << "afile.dat" << endl;
+
+    for (const auto &entry : people)
+    {
+        ostringstream formatted, badNums;
+        for (const auto &nums : entry.phones)
+            if (!valid(nums)) badNums << " " << nums;
+            else formatted << " " << format(nums);
+        if (badNums.str().empty())
+            cout << entry.name << " " << formatted.str() << endl;
+        else
+            cerr << "input error: " << entry.name
+                 << " invalid number(s) " << badNums.str() << endl;
+    }
+    return 0;
+
+}
