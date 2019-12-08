@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+bool FindValue(vector<int>::const_iterator begin,
+        vector<int>::const_iterator end, int value) {
+    auto iter = begin;
+    while(iter != end) {
+        if(*iter == value)
+            return true;
+        ++iter;
+    }
+    return false;
+}
+
+int main()
+{
+    vector<int> vec;
+    int value = 5;
+    for(int i = 0; i < 10; i++) {
+        vec.push_back(i);
+    }
+
+    cout << FindValue(vec.begin(), vec.end(), value) << endl;
+
+    vector<int> v1;
+    const vector<int> v2;
+    auto it1 = begin(v1);               // iterator
+    auto it2 = begin(v2);               // const_iterator
+    auto it3 = cbegin(v1);              // const_iterator
+    auto it4 = cbegin(v2);              // const_iterator
+
+
+    return 0;
+}
