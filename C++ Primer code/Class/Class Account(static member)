@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Account {
+public:
+    void calculate() {amount += amount * interestRate; }
+    static double rate() {return interestRate; }
+    static void rate(double);
+
+private:
+    string owner;
+    double amount;
+    static double interestRate;                     
+    static constexpr double baseRate = 2.53;
+    static double initRate() {return baseRate; };
+};
+double Account::interestRate = initRate();          // static member should de defined out of the class
+
+void Account::rate(double newRate) {
+    interestRate = newRate;
+}
+
+int main()
+{
+    Account ac1;
+
+    double amount = Account::rate();               // public static member can be access by class
+    cout << amount << endl;                        // static member doesn't depend on the object, but the class
+
+    ac1.rate(4.32);
+    cout << ac1.rate() << endl;
+    
+    return 0;
+    
+}
