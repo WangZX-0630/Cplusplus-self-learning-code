@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include <iterator>
+
+using namespace std;
+
+void elimDups(vector<string> &words) {
+    sort(words.begin(), words.end());    // sort in dictionary order
+    for(auto s : words) {
+        cout << s << " ";
+    } cout << endl;
+    auto end_unique = unique(words.begin(), words.end());
+    // make every word appear only once, return the first position after the unique area
+    for(auto s : words) {
+        cout << s << " ";
+    } cout << endl;
+    words.erase(end_unique, words.end());  // erase those repeated words after the unique area
+}
+
+int main()
+{
+    vector<int> vec;
+    for(int i = 0; i != 20; i++) {
+        vec.push_back(i);
+    }
+
+    int val =10;
+    auto result = find(vec.cbegin(), vec.cend(), val);
+    cout << "The value "
+         << (result == vec.cend() ?
+         "is not present" : "is present") << endl;
+
+    char c = 'l';
+    string s{"Hello World"};
+    auto num = count(s.cbegin(), s.cend(), c);
+    cout << "Number of l in 'Hello World': " << num << endl;
+
+    int sum = accumulate(vec.cbegin(), vec.cend(), 0);
+    cout << sum << endl;
+
+    vector<string> v{"Hello", " ", "C++", " ", "World"};
+    string sum2 = accumulate(v.cbegin(), v.cend(), string(""));
+    cout << sum2 << endl;
+
+    fill_n(vec.begin(), 10, 0);
+    for(auto i : vec) {
+        cout << i << " ";
+    } cout << endl;
+
+    auto it = back_inserter(vec);
+    fill_n(it, 5, 1);
+    for(auto i : vec) {
+        cout << i << " ";
+    } cout << endl;
+
+    vector<string> vs{"the","quick","red","fox","jumps","over","the","slow","red","turtle"};
+    for(auto s : vs) {
+        cout << s << " ";
+    } cout << endl;
+
+    elimDups(vs);
+    for(auto s : vs) {
+        cout << s << " ";
+    } cout << endl;
+
+
+
+    return 0;
+}
