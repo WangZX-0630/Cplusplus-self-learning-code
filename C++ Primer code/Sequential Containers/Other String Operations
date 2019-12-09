@@ -1,0 +1,58 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+    string s{"Hello World"};
+    string s2(s, 3);
+    string s3(s, 3, 5);
+    for(auto c : s2) {
+        cout << c;
+    } cout << endl;
+    for(auto c : s3) {
+        cout << c;
+    } cout << endl;
+
+    string s4 = s.substr(0,5);
+    string s5 = s.substr(6);
+    for(auto c : s4) {
+        cout << c;
+    } cout << endl;
+    for(auto c : s5) {
+        cout << c;
+    } cout << endl;
+
+    s.insert(s.size(), 5, '!');
+    for(auto c : s) {
+        cout << c;
+    } cout << endl;
+    s.erase(s.size() - 5, 5);
+    for(auto c : s) {
+        cout << c;
+    } cout << endl;
+
+    s.erase(s.size() - 5, 5);
+    s.append("C World");
+    for(auto c : s) {
+        cout << c;
+    } cout << endl;
+    s.replace(6, 1, "C++");
+    for(auto c : s) {
+        cout << c;
+    } cout << endl;
+
+    auto pos1 = s.find("l");    // first_pos
+    cout << pos1 << endl;
+    auto pos4 = s.rfind("l");   // last_pos
+    cout << pos4 << endl;
+
+    string numbers("0123456789"), str1("kd5aj1kobe11"), str2("03714I7");
+    auto pos2 = str1.find_first_of(numbers);
+    cout << pos2 << endl;
+    auto pos3 = str2.find_first_not_of(numbers);
+    cout << pos3 << endl;
+
+    return 0;
+}
