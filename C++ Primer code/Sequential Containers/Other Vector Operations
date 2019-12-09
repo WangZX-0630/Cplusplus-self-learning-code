@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    vector<int> vec1;
+    vector<int> vec2;
+
+    cout << "vec1: size: " << vec1.size()
+         << " capacity: " << vec1.capacity() << endl;
+    for(vector<int>::size_type i = 0; i != 24; i++) {
+        vec2.push_back(i);
+        cout << "vec2: size: " << vec2.size()
+             << " capacity: " << vec2.capacity() << endl;  // once the space is not enough, double it
+    }
+
+    cout << "vec2: size: " << vec2.size()
+         << " capacity: " << vec2.capacity() << endl;  // capacity is the size of the reserved space
+
+
+    vec2.reserve(50);                // reserve will strictly allocate space as we required (capacity: 50)
+    cout << "vec2: size: " << vec2.size()
+         << " capacity: " << vec2.capacity() << endl;
+
+    while(vec2.size() != vec2.capacity()) {   // capacity do not change, just size become larger
+        vec2.push_back(1);
+    }
+    cout << "vec2: size: " << vec2.size()
+         << " capacity: " << vec2.capacity() << endl;
+    vec2.push_back(1);
+    cout << "vec2: size: " << vec2.size()
+         << " capacity: " << vec2.capacity() << endl; // capacity will double again 50 -> 100
+
+
+    return 0;
+}
