@@ -1,0 +1,103 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <list>
+#include <deque>
+
+using namespace std;
+
+int main()
+{
+    vector<string> vec{"C++", "world", "!"};
+    list<string> lt{"can", "I", "do", "for", "you", "?"};
+
+    vec.insert(vec.begin(),"Hello");        // legal but cost time too much
+    lt.push_front("What");
+
+    for(auto i : vec) {
+        cout << i << " ";
+    }
+    cout << endl;
+
+    list<string>::iterator begin = lt.begin();
+    while(begin != lt.end()) {
+        cout << *begin << " ";
+        ++begin;
+    }
+    cout << endl;
+
+    list<int> list1{1,2,3,4,5,6,7,8,9,10};
+    deque<int> deq1;
+    deque<int> deq2;
+
+    auto beg = list1.begin();
+    while(beg != list1.end()) {
+        if(*beg % 2 != 0) {
+            deq1.push_back(*beg);
+        }
+        else {
+            deq2.push_back(*beg);
+        }
+        ++beg;
+    }
+    for(auto i : deq1) {
+        cout << i << ", ";
+    }
+    cout << endl;
+    for(auto i : deq2) {
+        cout << i << ", ";
+    }
+    cout << endl;
+
+    // The next four methods to visit the first element of deque are the same
+    int &a = deq1.at(0);
+    int &b = deq1.front();
+    deque<int>::iterator c = deq1.begin();
+    int &d = deq1[0];
+
+    if(a == b == *c == d) {
+        cout << "Correct" << endl;
+    } else {
+        cout << "Incorrect" << endl;
+    }
+
+    auto it = list1.begin();
+    while(it != list1.end()) {
+        if(*it % 3)                         // if it can not be divided by 3
+            it = list1.erase(it);           // erase return next iterator
+        else
+            it++;
+    }
+    for(auto i : list1) {
+        cout << i << ", ";
+    }
+    cout << endl;
+
+    list1.resize(6,-1);                // add three -1 after the list1
+    list1.resize(10);                     // add four 0 after the list1
+    list1.resize(8);                      // delete 2 elements from the tail
+    for(auto i : list1) {
+        cout << i << ", ";
+    }
+    cout << endl;
+
+    list1.clear();
+
+    vector<int> vc = {0,1,2,3,4,5,6,7,8,9};
+    auto iter = vc.begin();
+    while(iter != vc.end()) {               // Don't save the end() iterator, because it's always changing
+        if(*iter % 2) {                     // Just use end() as the judge, that's why end() is always very quick to access
+            iter = vc.insert(iter, *iter);  // Iterator returned back by insert points to the first
+            iter += 2;                              // inserted element. So after using insert, update iterator
+        } else {
+            iter = vc.erase(iter);          // It's not necessary to increase iterator after erase
+        }
+    }
+    for(auto i : vc) {
+        cout << i << ", ";
+    }
+    cout << endl;
+
+
+
+    return 0;
