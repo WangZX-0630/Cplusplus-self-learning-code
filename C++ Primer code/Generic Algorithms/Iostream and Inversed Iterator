@@ -1,0 +1,42 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include <iterator>
+
+using namespace std;
+
+int main()
+{
+    istream_iterator<int> int_iter(cin);
+    istream_iterator<int> int_eof;
+    ifstream input("afile.dat");
+    istream_iterator<string> str_it(input);
+    vector<int> vec = {1,2,3,4,5,6,7,8};
+
+    while(int_iter != int_eof) {
+        vec.push_back(*int_iter++);
+    }
+
+    cout << accumulate(int_iter, int_eof, 0) << endl;
+
+    ostream_iterator<int> out_iter(cout, " ");  // " " is the delimiter
+
+    for(auto e : vec) {
+        *out_iter++ = e;
+    } cout << endl;
+
+    copy(vec.begin(), vec.end(), out_iter);
+    cout << endl;
+    
+    // reverse iterator
+    for(auto r_iter = vec.crbegin(); r_iter != vec.crend(); ++r_iter) {
+        cout << *r_iter << " ";
+    }cout << endl;
+    
+
+    return 0;
+}
+
