@@ -1,0 +1,124 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include <iterator>
+
+using namespace std;
+
+bool isShorter(const string &s1, const string &s2) {
+    return s1.size() < s2.size();
+}
+
+bool isCapital(const string &s) {
+    return isupper(s.front());
+}
+
+bool isLongerThanFive(const string &s) {
+    return s.size() >= 5;
+}
+
+void Print(vector<string>::const_iterator begin, vector<string>::const_iterator end) {
+    auto it = begin;
+    while(it != end) {
+        cout << *it << " ";
+        ++it;
+    } cout << endl;
+}
+
+void elimDups(vector<string> &words) {
+    sort(words.begin(), words.end());    // sort in dictionary order
+    auto end_unique = unique(words.begin(), words.end());
+    // make every word appear only once, return the first position after the unique area
+    words.erase(end_unique, words.end());  // erase those repeated words after the unique area
+}
+
+string make_plural(size_t num, const string &word, const string &ending) {
+    return (num > 1) ? word + ending : word;
+}
+
+void biggies(vector<string> &words, vector<string>::size_type sz,
+        ostream &os = cout , char c = ' ') {
+    vector<string> vs2{"the","quick","red","fox","jumps","over","the","slow","red","turtle"};
+    elimDups(words);
+    // Lambda expression to sort the string vector
+    stable_sort(words.begin(), words.end(),
+                [](const string &a, const string &b) {return a.size() < b.size();});
+
+    auto wc = find_if(words.begin(),words.end(),
+                      [sz](const string &a) {return a.size() >= sz;});
+    auto count = words.end() - wc;
+    cout << count << " " << make_plural(count, "word", "s")
+         << " of length " << sz << " or longer: " << endl;
+    for_each(wc, words.end(),[&os, c](const string &s) {os << s << c;});  // [=, &] is ok
+    cout << endl;
+}
+
+int main()
+{
+    // Normal ways to sort the string vector
+    vector<string> vs{"the","quick","red","fox","jumps","over","the","slow","red","turtle"};
+    elimDups(vs);
+    stable_sort(vs.begin(), vs.end(), isShorter);
+    Print(vs.begin(), vs.end());
+
+    auto TrueEndIter = partition(vs.begin(), vs.end(),isLongerThanFive);
+    // partition return a iterator point to the first element of the false part
+    Print(vs.begin(), TrueEndIter);   // print words longer than or equal to 5
+
+    vector<string> vec{"apple","Banana","Orange","grape","Pear"};
+    auto TrueEndIter2 = partition(vec.begin(), vec.end(), isCapital);
+    Print(vec.begin(), TrueEndIter2);  // print first letter capital words
+
+    biggies(vs,4);
+
+    auto f = [](int a, int b) {return a + b;};
+    cout << f(2,3) << endl;
+
+    size_t v1 = 42;
+    auto f1 = [v1] {return v1; };
+    v1 = 0;    // the value captured by lambda is the copy of the original value when lambda expression is created,
+    cout << f1() << endl;   // which means the changes of original value don't affect the value in lambda expression
+    // f1() = 42
+
+    size_t v2 = 42;
+    auto f2 = [&v2] {return v2; };
+    v2 = 0;   // the value captured by lambda is the reference of the original value
+    cout << f2() << endl;
+    // f2() = 0
+
+    size_t v3 = 42;
+    auto f3 = [&v3] () mutable { return ++v3; };  // if you want to change the captured value, add mutable
+    cout << f3() << endl;
+    // f3() = 43
+
+    vector<int> vi{1,-2,3,-4,5,-6,7,-8,9};
+    transform(vi.begin(),vi.end(),vi.begin(),
+            [](int i) {return i < 0 ? -i : i; });   // don't use if...return, otherwise lambda will return void
+    // the third parameter of transform is the position you want to write on
+    for(auto i : vi) {
+        cout << i << " ";
+    } cout << endl;
+    // otherwise you point out the type you want to return
+    transform(vi.begin(), vi.end(), vi.begin(),
+            [](int i)->int {if(i < 0) return i; else return -i;});
+    for(auto i : vi) {
+        cout << i << " ";
+    } cout << endl;
+
+    size_t num = 0;
+    num = count_if(vs.begin(), vs.end(),
+            [](const string &s) {return s.size() >= 4; });
+    cout << num << endl;
+
+    size_t a = 8;
+    auto f4 = [&a]()->bool {return(a == 0 ? true : !(a--));};
+    while(!f4()) cout << a << endl;
+
+    sort(vs.begin(),vs.end(),bind(isShorter, std::placeholders::_2, std::placeholders::_1));
+    // Use bind and change the positions of placeholder to sort vs in a different way
+    Print(vs.cbegin(),vs.cend());
+    
+    return 0;
+}
