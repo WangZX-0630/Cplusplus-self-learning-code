@@ -1,0 +1,32 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    string *ps = new string("Hello World");
+    vector<int> *pv = new vector<int>{1, 2, 3, 4, 5, 6};
+    int *pi = new int();   // Initialize invariance as far as possible
+    // Advice: Don't use new and delete to manage dynamic memory, use smart pointer
+
+    shared_ptr<string> p1 = make_shared<string>("Hello World");
+    shared_ptr<int> p2 = make_shared<int>(42);
+    auto q(p1);   // a copy of p1
+    // Use smart pointer as possible as you can
+
+    unique_ptr<string> up1(new string("World"));
+    // definition of a unique_str use a pointer returned back from new
+    unique_ptr<string> up2(new string("Hello"));
+    unique_ptr<string> up3(up2.release());
+    up1.reset(up3.release());
+    
+    auto sp = make_shared<int>(10);
+    weak_ptr<int> wp(sp);      // wp weak shared sp, reference count of sp doesn't change
+    
+
+    delete ps;
+    delete pv;
+    delete pi;
+    return 0;
+}
