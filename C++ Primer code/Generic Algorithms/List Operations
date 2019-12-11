@@ -1,0 +1,38 @@
+#include <iostream>
+#include <string>
+#include <list>
+
+using namespace std;
+
+void elimDups(list<string> &words) {
+    words.sort();
+    words.unique();
+}
+
+void Print(const list<string> &lst) {
+    for(auto s : lst) {
+        cout << s << " ";
+    } cout << endl;
+}
+
+int main()
+{
+    list<string> lst{"ab","ac","ab","bd","asd","wasd"};
+    elimDups(lst);
+    Print(lst);
+
+    list<string> lst2{"Hello", "World"};
+    lst.merge(lst2);
+    Print(lst);
+
+    lst.reverse();
+    Print(lst);
+
+    list<string> lst3{"C++"};
+    lst.splice(++lst.begin(), lst3);
+    Print(lst);
+
+
+    return 0;
+}
+
