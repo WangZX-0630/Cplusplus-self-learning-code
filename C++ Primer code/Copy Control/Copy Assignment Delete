@@ -15,6 +15,9 @@ public:
     // you usually need to definite copy constructor and copy-assignment operator
     
     HasPtr& operator=(const HasPtr& hp);
+    // An assignment operator usually need to complete the work of a destructor and a copy constructor
+    // So it is necessary to remember delete the original data member before assigning a new one
+    // while you also need to make sure you already copy the right object's data in case of assign to itself
     
     ~HasPtr() { delete ps; }
     // If you need to definite a destructor, you certainly also need to definite 
