@@ -1,0 +1,30 @@
+#include <string>
+
+
+using namespace std;
+
+class HasPtr
+{
+public:
+    explicit HasPtr(const string &s = string()) : ps(new string(s)), i(0) { }
+    // Single parameter constructor use explicit to avoid copy initialization
+    // remember need to initialize all data member
+    HasPtr(const HasPtr& hp) :ps(new string(*hp.ps)), i(hp.i) { }
+    // When you need to assign different id to different object or you have pointer or reference data member, 
+    // you usually need to definite copy constructor and copy-assignment operator
+    HasPtr& operator=(const HasPtr& hp);
+    ~HasPtr() { delete ps; }
+    // If you need to definite a destructor, you certainly also need to definite 
+    // copy constructor and copy-assignment operator
+private:
+    string *ps;
+    int i;
+};
+HasPtr& HasPtr::operator=(const class HasPtr & hp) {
+    auto *new_ps = new string(*hp.ps);
+    delete ps;
+    ps = new_ps;
+    i = hp.i;
+    return *this;
+}
+
