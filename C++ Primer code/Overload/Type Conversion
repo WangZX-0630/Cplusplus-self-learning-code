@@ -1,0 +1,26 @@
+#include <iostream>
+#include <functional>
+
+using namespace std;
+
+class SmallInt {
+public:
+    SmallInt(int i = 0) : val(i) {
+        if(i < 0 || i > 255) {
+            throw out_of_range("Bad SmallInt value");
+        }
+    }
+    explicit operator int() const {return val; }
+
+private:
+    size_t val;
+};
+
+int main()
+{
+    SmallInt si;
+    si = 5;
+    cout << static_cast<int>(si) + 4 << endl;
+
+    return 0;
+}
