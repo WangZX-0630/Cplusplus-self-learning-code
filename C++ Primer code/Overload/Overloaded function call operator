@@ -1,0 +1,110 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+#include <functional>
+
+using namespace std;
+
+struct absInt {
+    int operator()(int val) const {
+        return val < 0 ? -val : val;
+    }
+};
+
+class PrintString {
+public:
+    PrintString(ostream &o = cout, char c = ' ') : os(o), sep(c){}
+    void operator()(const string &s) const {os << s << sep; }
+private:
+    ostream &os;
+    char sep;
+};
+
+class ShorterString {
+public:
+    bool operator()(const string &s1, const string &s2) {
+        return s1.size() < s2.size();
+    }
+};
+
+class SizeComp {
+public:
+    SizeComp(size_t n) : sz(n) {}
+    bool operator()(const string &s) const {
+        return s.size() >= sz;
+    }
+private:
+    size_t sz;
+};
+
+void LambdaPrintLonger(vector<string> &vs, size_t sz) {
+    stable_sort(vs.begin(), vs.end(),[](const string &s1, const string &s2)
+                                            {return s1.size() < s2.size();});
+    auto wc  = find_if(vs.begin(), vs.end(), [sz](const string &s)
+                                 {return s.size() >= sz; });
+    for_each(wc, vs.end(), [](const string &s){cout << s << " ";});
+    cout << endl;
+}
+
+void ObjectPrintLonger(vector<string> &vs, size_t sz) {
+    stable_sort(vs.begin(), vs.end(), ShorterString());
+    auto wc = find_if(vs.begin(), vs.end(), SizeComp(sz));
+    for_each(vs.begin(), vs.end(), PrintString());
+    cout << endl;
+}
+
+int add(int a, int b) {
+    return a + b;
+}
+
+class Divide {
+public:
+    int operator()(int a, int b) {
+        return a / b;
+    }
+};
+
+int main()
+{
+    int i = -42;
+    absInt absObj;        // they are called function object
+    int ui = absObj(i);   // because these objects behave like functions
+    cout << ui << endl;
+
+    string s = "Hello World";
+    PrintString printer;
+    printer(s);
+    cout << endl;
+    //PrintString errors(cerr, '\n');
+    //errors(s);
+
+    vector<string> vs1 = {"Hello", "C++", "World"};
+    vector<string> vs2 = {"Welcome", "to", "China"};
+    LambdaPrintLonger(vs1, 4);
+    ObjectPrintLonger(vs2, 2);
+
+    
+    plus<int> intAdd;
+    negate<int> intNegate;
+    cout << intAdd(10, 20) << endl;
+    cout << intNegate(intAdd(20, 30)) << endl;
+
+
+    auto mod = [](int i, int j) {return i % j; };
+    map<string, function<int(int, int)>> calc {
+            {"+", add},
+            {"-", minus<int>()},
+            {"*", [](int i, int j) { return i * j; }},
+            {"/", Divide()},
+            {"%", mod}
+    };
+    cout << calc["+"](10, 5) << endl;
+    cout << calc["-"](10, 5) << endl;
+    cout << calc["*"](10, 5) << endl;
+    cout << calc["/"](10, 5) << endl;
+    cout << calc["%"](10, 5) << endl;
+
+
+    return 0;
+}
